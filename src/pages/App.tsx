@@ -61,7 +61,7 @@ export default function App(props: any) {
         await preparation();
         postMessage(
           JSON.stringify(
-            await Promise.all(Array(100).fill().map(async (_) => {
+            await Promise.all(Array(30).fill().map(async (_) => {
               const qna = await generateQuestion();
               return qna;
             })
