@@ -31,6 +31,8 @@ export const ForestDuelSingleton = (function () {
 })();
 
 class ForestDuel extends Phaser.Game {
+  private startGame?: Phaser.Scene;
+
   public setQuestion(question: string) {
     eventsCenter.emit("set-question", question);
   }

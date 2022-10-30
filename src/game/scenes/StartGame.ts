@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { CharacterManager } from "../managers/CharacterManager";
 import eventsCenter from "../managers/EventsEmitter";
+
 export default class StartGame extends Phaser.Scene {
   private question: string;
   private questionSprite?: Phaser.GameObjects.Text;
@@ -15,9 +16,7 @@ export default class StartGame extends Phaser.Scene {
   public preload() {
     this.load.image("background", "../assets/background.png");
     this.load.image("grass", "../assets/grass.png");
-
-    this.load.image("player1", "../assets/axolotl2.png");
-    this.load.image("player2", "../assets/axolotl2.png");
+    this.characterManager.preload();
   }
   public create() {
     // Setup backgrounds
@@ -42,6 +41,9 @@ export default class StartGame extends Phaser.Scene {
     // Set events
     eventsCenter.on("set-question", this.setQuestion, this);
     eventsCenter.on("attack", this.attack, this);
+
+    // Start attacking
+    this.characterManager.attack2();
   }
 
   private setQuestion(question: string) {

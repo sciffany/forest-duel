@@ -38,10 +38,18 @@ export default function App(props: any) {
 
   function onAnswerChange(e: any) {
     setUserAnswer(e.target.value);
-    if (e.target.value === qnas?.[questionNumber][1]) {
+    if (
+      e.target.value.replace(/[\W_]+/g, "").toLowerCase() ===
+      qnas?.[questionNumber][1].replace(/[\W_]+/g, "").toLowerCase()
+    ) {
       setQuestionNumber((questionNumber) => questionNumber + 1);
       setUserAnswer("");
       ForestDuelSingleton.getInstance().attack();
+    }
+
+    if (e.target.value === "/pass") {
+      setQuestionNumber((questionNumber) => questionNumber + 1);
+      setUserAnswer("");
     }
   }
 
@@ -53,7 +61,7 @@ export default function App(props: any) {
         await preparation();
         postMessage(
           JSON.stringify(
-            await Promise.all(Array(10).fill().map(async (_) => {
+            await Promise.all(Array(100).fill().map(async (_) => {
               const qna = await generateQuestion();
               return qna;
             })

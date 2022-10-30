@@ -19,6 +19,10 @@ export class CharacterManager {
     this.hp1 = Constants.fullHp;
     this.hp2 = Constants.fullHp;
   }
+  public preload() {
+    this.scene.load.image("player1", "../assets/axolotl2.png");
+    this.scene.load.image("player2", "../assets/shelbyPangolin2.png");
+  }
   public create() {
     // Setup players
     this.player1 = this.scene.add.image(
