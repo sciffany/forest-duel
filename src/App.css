@@ -9,3 +9,7 @@
 .button {
   width: fit;
 }
+
+.hidden {
+  visibility: hidden;
+}

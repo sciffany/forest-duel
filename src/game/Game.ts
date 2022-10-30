@@ -1,3 +1,5 @@
+import Phaser from "phaser";
+import eventsCenter from "./EventsEmitter";
 import StartGame from "./StartGame";
 
 const config = {
@@ -8,11 +10,6 @@ const config = {
   scale: {
     parent: "game-display",
   },
-};
-
-export const createGame = () => {
-  const game = new ForestDuel(config);
-  return game;
 };
 
 export const ForestDuelSingleton = (function () {
@@ -34,7 +31,7 @@ export const ForestDuelSingleton = (function () {
 })();
 
 class ForestDuel extends Phaser.Game {
-  constructor(config: Phaser.Types.Core.GameConfig) {
-    super(config);
+  public setQuestion(question: string) {
+    eventsCenter.emit("set-question", question);
   }
 }

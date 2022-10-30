@@ -1,5 +1,14 @@
 import Phaser from "phaser";
+import eventsCenter from "./EventsEmitter";
 export default class StartGame extends Phaser.Scene {
+  private question: string;
+  private questionSprite?: Phaser.GameObjects.Text;
+
+  constructor(props: any) {
+    super(props);
+    this.question = "Hello";
+  }
+
   public preload() {
     this.load.image("background", "assets/background.png");
     this.load.image("grass", "assets/grass.png");
@@ -33,8 +42,22 @@ export default class StartGame extends Phaser.Scene {
     this.add.rectangle(600, 30, 300, 40, 0x523113);
     const hp2 = this.add.rectangle(600, 30, 280, 20, 0xb08341);
 
+    // Setup questions
     this.add.rectangle(400, 350, 600, 80, 0x001253);
     this.add.image(400, 390, "grass");
+    this.questionSprite = this.add.text(400, 350, this.question, {
+      fontSize: "20px",
+      fontFamily: "Arial",
+    });
+    this.questionSprite.setOrigin(0.5);
+    eventsCenter.on("set-question", this.setQuestion, this);
+  }
+
+  private setQuestion(question: string) {
+    if (!this.questionSprite) {
+      return;
+    }
+    this.questionSprite.text = question;
   }
   update() {}
 }
