@@ -1,3 +1,4 @@
+import Phaser from "phaser";
 export default class StartGame extends Phaser.Scene {
   public preload() {
     this.load.image("background", "assets/background.png");

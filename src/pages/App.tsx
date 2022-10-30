@@ -3,29 +3,35 @@ import Phaser from "phaser";
 import { IonPhaser } from "@ion-phaser/react";
 import StartGame from "../game/StartGame";
 import "../App.css";
+import { useParams } from "react-router-dom";
+import { createGame, ForestDuelSingleton } from "../game/config";
 
-const game = {
-  width: 800,
-  height: 400,
-  type: Phaser.AUTO,
-  scene: [StartGame],
-};
-
-export default function App() {
+export default function App(props: any) {
+  const { quizIds } = useParams();
   const gameRef = useRef(null);
   const [initialize, setInitialize] = useState(false);
+  const [question, setQuestion] = React.useState<string>("");
+  React.useEffect(() => {
+    ForestDuelSingleton.getInstance();
+  }, []);
+
+  function submit() {}
   return (
     <>
+      <div className="center" id="game-display"></div>
       <div className="center">
-        <IonPhaser ref={gameRef} game={game} initialize={initialize} />
+        <input className="button"></input>
       </div>
-      {!initialize && (
-        <div className="center">
-          <button className="button" onClick={() => setInitialize(true)}>
-            Play
-          </button>
-        </div>
-      )}
+      <div className="center">
+        <button className="button" onClick={submit}>
+          Attack
+        </button>
+      </div>
+      <div className="center">
+        <button className="button" onClick={submit}>
+          Heal
+        </button>
+      </div>
     </>
   );
 }

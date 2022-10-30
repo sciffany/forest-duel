@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./pages/App";
-import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Maker from "./pages/Maker";
+import Finder from "./pages/Finder";
 
 const router = createBrowserRouter([
   {
@@ -10,8 +11,16 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
+    path: "/:quizIds",
+    element: <App />,
+  },
+  {
     path: "/maker",
     element: <Maker />,
+  },
+  {
+    path: "/finder",
+    element: <Finder />,
   },
 ]);
 

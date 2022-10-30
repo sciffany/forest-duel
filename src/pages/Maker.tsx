@@ -13,10 +13,10 @@ export default function Question() {
     description: "",
     quizId: "",
     quizPassword: "",
-    code: `function preparation() {
-
-};
+    code: `async function preparation() {
+}
 function generateQuestion(){
+  console.log("Testing");
   const factor1 = Math.floor(Math.random() * 10 + 1);
   const factor2 = Math.floor(Math.random() * 10 + 1);
   const question = factor1 + " x " + factor2;
@@ -24,9 +24,8 @@ function generateQuestion(){
   return [question, answer];
 }`,
   });
-  const [sampleQuestions, setSampleQuestions] = React.useState<
-    [string, string][]
-  >([]);
+
+  const [logs, setLogs] = React.useState<string[]>([]);
 
   function onChange(fieldName: string, value: string) {
     if (fieldName === "quizId" || fieldName === "quizPassword") {
@@ -36,25 +35,33 @@ function generateQuestion(){
   }
 
   function test() {
-    setSampleQuestions([]);
+    setLogs([]);
     var blob = new Blob([
       `onmessage = async function(e) {
         ${state.code}
-        
+        await preparation();
         for(var i = 0; i < 10; i++){
-          postMessage(JSON.stringify(generateQuestion()));
+          postMessage(JSON.stringify(await generateQuestion()));
         };
       }`,
     ]);
+
+    console.log(`${state.code}
+    await preparation();
+    for(var i = 0; i < 10; i++){
+      postMessage(JSON.stringify(await generateQuestion()));
+    };`);
 
     var blobURL = window.URL.createObjectURL(blob);
 
     var worker = new Worker(blobURL);
     worker.onmessage = function (e) {
-      setSampleQuestions((sampleQuestions) => [
-        ...sampleQuestions,
-        JSON.parse(e.data),
-      ]);
+      if (e.data.startsWith("LOG:")) {
+        setLogs((logs) => [...logs, e.data]);
+      } else {
+        const [question, answer] = JSON.parse(e.data);
+        setLogs((logs) => [...logs, question + "-->" + answer]);
+      }
     };
     worker.postMessage("start");
   }
@@ -109,12 +116,8 @@ function generateQuestion(){
       <button className="button" onClick={submit}>
         Submit
       </button>
-      {sampleQuestions.map((sampleQuestion: [string, string]) => {
-        return (
-          <div key={Math.random()}>
-            {sampleQuestion[0] + " --> " + sampleQuestion[1]}
-          </div>
-        );
+      {logs.map((log: string) => {
+        return <div key={Math.random()}>{log}</div>;
       })}
     </>
   );
