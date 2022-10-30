@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 import Phaser from "phaser";
 import { IonPhaser } from "@ion-phaser/react";
-import StartGame from "./game/StartGame";
-import "./App.css";
+import StartGame from "../game/StartGame";
+import "../App.css";
 
 const game = {
   width: 800,
