@@ -1,6 +1,6 @@
 import Phaser from "phaser";
-import eventsCenter from "./EventsEmitter";
-import StartGame from "./StartGame";
+import eventsCenter from "../game/managers/EventsEmitter";
+import StartGame from "./scenes/StartGame";
 
 const config = {
   width: 800,
