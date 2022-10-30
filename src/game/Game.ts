@@ -34,4 +34,8 @@ class ForestDuel extends Phaser.Game {
   public setQuestion(question: string) {
     eventsCenter.emit("set-question", question);
   }
+
+  public attack() {
+    eventsCenter.emit("attack");
+  }
 }

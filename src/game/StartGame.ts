@@ -13,8 +13,8 @@ export default class StartGame extends Phaser.Scene {
     this.load.image("background", "assets/background.png");
     this.load.image("grass", "assets/grass.png");
 
-    this.load.image("player1", "assets/shelbyPangolin2.png");
-    this.load.image("player2", "assets/capybara2.png");
+    this.load.image("player1", "assets/capybara2.png");
+    this.load.image("player2", "assets/shelbyPangolin2.png");
   }
   public create() {
     // Setup backgrounds

@@ -7,9 +7,11 @@ import { db } from "../features/firebase";
 
 export default function App(props: any) {
   const { quizId } = useParams();
-  const [question, setQuestion] = React.useState<string>("");
-  const [questionNumber, setQuestionNumber] = React.useState<number>(0);
+
   const [qnas, setQnas] = React.useState<[string, string][]>();
+  const [questionNumber, setQuestionNumber] = React.useState<number>(0);
+  const [userAnswer, setUserAnswer] = React.useState<string>("");
+
   React.useEffect(() => {
     ForestDuelSingleton.getInstance();
     async function loadQuiz() {
@@ -32,7 +34,16 @@ export default function App(props: any) {
     ForestDuelSingleton.getInstance().setQuestion(
       qnas?.[questionNumber][0] ?? ""
     );
-  }, [qnas]);
+  }, [qnas, questionNumber]);
+
+  function onAnswerChange(e: any) {
+    setUserAnswer(e.target.value);
+    if (e.target.value === qnas?.[questionNumber][1]) {
+      setQuestionNumber((questionNumber) => questionNumber + 1);
+      setUserAnswer("");
+      ForestDuelSingleton.getInstance().attack();
+    }
+  }
 
   const loadQuizCode = (code: string): Promise<[string, string][]> => {
     return new Promise((resolve) => {
@@ -68,7 +79,11 @@ export default function App(props: any) {
       <div className="center" id="game-display"></div>
       <div className="hidden">{qnas?.length}</div>
       <div className="center">
-        <input className="button"></input>
+        <input
+          className="button"
+          value={userAnswer}
+          onChange={onAnswerChange}
+        ></input>
       </div>
       <div className="center">
         <button className="button" onClick={submit}>
